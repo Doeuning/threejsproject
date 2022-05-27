@@ -1,0 +1,18 @@
+$safeTop: env(safe-area-inset-top);
+$safeBottom: env(safe-area-inset-bottom);
+$maxLayoutWidth: 1260px;
+$minLayoutWidth: 1200px;
+$mobileMinLayoutWidth: 320px;
+$headerZIndex: 200;
+$containerZIndex: 100;
+
+/* Color */
+$white: #fff;
+$black: #000;
+
+$gray: #bbb;
+$images: "../../assets/images";
+
+/* media query size */
+$mobile: 1199px;
+$pc: 1200px;
