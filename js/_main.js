@@ -2,7 +2,6 @@ import "../scss/common.scss";
 import * as THREE from "three";
 import webGL from "three/examples/jsm/capabilities/WebGL";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { LatheGeometry } from "three";
 
 class App {
   constructor() {
@@ -40,7 +39,7 @@ class App {
     const width = this._app.clientWidth;
     const height = this._app.clientHeight;
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-    camera.position.z = 20;
+    camera.position.z = 5;
     this._camera = camera;
   }
 
@@ -53,31 +52,18 @@ class App {
   }
 
   _setupModel() {
-    const x = -2.5,
-      y = -5;
-    const shape = new THREE.Shape();
-    shape.moveTo(x + 2.5, y + 2.5);
-    shape.bezierCurveTo(x + 2.5, y + 2.5, x + 2, y, x, y);
-    shape.bezierCurveTo(x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5);
-    shape.bezierCurveTo(x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5);
-    shape.bezierCurveTo(x + 6, y + 7.7, x + 8, y + 4.5, x + 8, y + 3.5);
-    shape.bezierCurveTo(x + 8, y + 3.5, x + 8, y, x + 5, y);
-    shape.bezierCurveTo(x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5);
-
-    const settings = {
-      steps: 2,
-      depth: 4,
-      bevelEnabled: false,
-      bevelThickness: 0.1,
-      bevelSize: 0.1,
-      bevelSegments: 1,
-    };
-    const geometry = new THREE.ExtrudeGeometry(shape, settings);
-
-    const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x515151 });
+    // const geometry = new THREE.BoxGeometry(1, 1, 1);
+    // const material = new THREE.MeshPhongMaterial({ color: "#fff" });
+    //
+    // const cube = new THREE.Mesh(geometry, material);
+    //
+    // this._scene.add(cube);
+    // this._cube = cube;
+    const geometry = new THREE.BoxGeometry(1, 1, 1, 3, 3, 3);
+    const fillMaterial = new THREE.MeshPhongMaterial({ color: "#fff" });
     const cube = new THREE.Mesh(geometry, fillMaterial);
 
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
+    const lineMaterial = new THREE.LineBasicMaterial({ color: "#FF0000" });
     const line = new THREE.LineSegments(
       new THREE.WireframeGeometry(geometry, lineMaterial)
     );
@@ -88,6 +74,8 @@ class App {
 
     this._scene.add(group);
     this._cube = group;
+    this._cube.rotation.x = 0.5;
+    this._cube.rotation.y = 0.5;
   }
 
   _setupControls() {
