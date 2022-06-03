@@ -57,39 +57,7 @@ class App {
   }
 
   _setupModel() {
-    const rawPositions = [-1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0];
-    const positions = new Float32Array(rawPositions);
-
-    const rawNormals = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
-    const normals = new Float32Array(rawNormals);
-
-    const rawColors = [1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0];
-    const colors = new Float32Array(rawColors);
-
-    const rawUVs = [0, 0, 1, 0, 0, 1, 1, 1];
-    const uvs = new Float32Array(rawUVs);
-
-    const geometry = new THREE.BufferGeometry();
-
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    // 하나의 정점이 3개의 항목(x, y, z)으로 구성된다는 의미.
-    geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
-
-    geometry.setIndex([0, 1, 2, 2, 1, 3]);
-
-    const textureLoader = new THREE.TextureLoader();
-    const map = textureLoader.load("/images/texture.jpg");
-
-    const material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      vertexColors: true,
-      map: map,
-    });
-
-    const box = new THREE.Mesh(geometry, material);
-    this._scene.add(box);
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
   }
 
   _setupControls() {
