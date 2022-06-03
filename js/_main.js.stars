@@ -39,57 +39,46 @@ class App {
     const width = this._app.clientWidth;
     const height = this._app.clientHeight;
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 100);
-    // ddd
-    camera.position.z = 3;
+    camera.position.z = 1;
     this._camera = camera;
-    this._scene.add(camera);
   }
 
   _setupLight() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    this._scene.add(ambientLight);
-
     const color = "#fff";
     const instensity = 1;
     const light = new THREE.DirectionalLight(color, instensity);
     light.position.set(-1, 2, 4);
-    this._camera.add(light);
+    this._scene.add(light);
   }
 
   _setupModel() {
-    const rawPositions = [-1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0];
-    const positions = new Float32Array(rawPositions);
+    const vertices = [];
+    for (let i = 0; i < 10000; i++) {
+      const x = THREE.Math.randFloatSpread(5);
+      const y = THREE.Math.randFloatSpread(5);
+      const z = THREE.Math.randFloatSpread(5);
 
-    const rawNormals = [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1];
-    const normals = new Float32Array(rawNormals);
-
-    const rawColors = [1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0];
-    const colors = new Float32Array(rawColors);
-
-    const rawUVs = [0, 0, 1, 0, 0, 1, 1, 1];
-    const uvs = new Float32Array(rawUVs);
+      vertices.push(x, y, z);
+    }
 
     const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(vertices, 3) // vertices의 좌표가 3개라는 의미
+    );
 
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    // 하나의 정점이 3개의 항목(x, y, z)으로 구성된다는 의미.
-    geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+    const sprite = new THREE.TextureLoader().load("/images/star.png"); // 포인트에 랜더링할 이미지
 
-    geometry.setIndex([0, 1, 2, 2, 1, 3]);
-
-    const textureLoader = new THREE.TextureLoader();
-    const map = textureLoader.load("/images/texture.jpg");
-
-    const material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      vertexColors: true,
-      map: map,
+    const material = new THREE.PointsMaterial({
+      map: sprite, // 이미지 랜더링
+      alphaTest: 0.5, // 이미지의 픽셀값 중 알파값이 이 alphaTest값보다 클때만 픽셀이 랜더링 됨
+      color: "#fff",
+      size: 0.005,
+      sizeAttenuation: true, // 사이즈를 통해 원근감을 나타낼지의 여부
     });
 
-    const box = new THREE.Mesh(geometry, material);
-    this._scene.add(box);
+    const points = new THREE.Points(geometry, material);
+    this._scene.add(points);
   }
 
   _setupControls() {

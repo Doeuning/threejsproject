@@ -25,7 +25,7 @@ module.exports = {
       patterns: [{ from: "static" }],
     }),
   ],
-  devServer: {
-    host: "localhost",
-  },
+  // devServer: {
+  //   host: "localhost",
+  // },
 };
